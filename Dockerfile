@@ -1,5 +1,6 @@
 ARG ELIXIR_VERSION="1.6.6"
 ARG ELIXIR_FLAVOR="-otp-21-alpine"
+ARG ALPINE_RUNTIME_VERSION="3.8"
 
 #
 # STAGE1: build release
@@ -27,10 +28,10 @@ RUN sed -i -e 's/_configure_node$/# _configure_node/' _build/prod/rel/now/releas
 #
 # STAGE2: run release
 #
-FROM elixir:${ELIXIR_VERSION}${ELIXIR_FLAVOR}
+FROM alpine:${ALPINE_RUNTIME_VERSION}
 
-# distillery requires bash
-RUN apk add bash
+# install requirements
+RUN apk add --no-cache bash openssl
 
 # copy release
 RUN mkdir -p /app
