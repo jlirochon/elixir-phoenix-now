@@ -18,6 +18,11 @@ WORKDIR /build
 RUN mix deps.get --force
 RUN mix release
 
+# epmd will fool Now's Automatic Port Discovery, we need to disable it.
+# A way of doing it is to avoid starting as a node.
+# http://erlang.org/doc/reference_manual/distributed.html#nodes
+RUN sed -i -e 's/_configure_node$/# _configure_node/' _build/prod/rel/now/releases/0.0.1/libexec/config.sh
+
 
 #
 # STAGE2: run release
