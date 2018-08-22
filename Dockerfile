@@ -40,5 +40,4 @@ COPY --from=builder /build/_build/prod/rel/now /app/
 WORKDIR /app
 EXPOSE 4000
 ENV PORT 4000
-ENTRYPOINT ["/app/bin/now"]
-CMD ["foreground"]
+CMD trap 'exit' INT; /app/bin/now foreground
